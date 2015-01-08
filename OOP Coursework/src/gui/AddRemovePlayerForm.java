@@ -7,6 +7,7 @@ package gui;
 import java.io.*;
 import javax.swing.*;
 import Classes.*;
+import javax.swing.event.*;
 /**
  *
  * @author Tom
@@ -24,27 +25,21 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
     {
         this.manager = Manager;
         initComponents();
-        try
-        {
-            String ReadTeams;
-            String[] Teams;
-            File f = new File("Teams.txt");
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            ReadTeams = br.readLine();
-            Teams = ReadTeams.split(",[ ]*");
-             for(int i = 0; i < Teams.length; i++)
-            {
-                manager.AddTeam(new Team(Teams[i]));
-            }
-            this.lstTeamName.setListData(Teams);
-            br.close();
-            
-        }
-        catch (Exception ex)
-        {
-            JOptionPane.showMessageDialog(null, "An Error occured while reading the teams from a file");
-        }
+        this.lstTeamName.addListSelectionListener(new ListSelectionListener()
+                {
+                    public void valueChanged(ListSelectionEvent Event)
+                    {
+                        JList Source = (JList) Event.getSource();
+                        lstTeamNameItemSelected(Event);
+                    }
+
+           
+                    
+                });
+        String[] Teams = ReadTeamsFile();  
+        ReadPlayerFile(Teams);
+        
+
     }
 
     /**
@@ -96,6 +91,11 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
         });
 
         btnCloseForm.setText("Close Form");
+        btnCloseForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseFormActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -185,7 +185,7 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
                 {
                     throw new Exception();
                 }
-                this.lstPlayerName.setListData(CreatePlayerList());
+                this.lstPlayerName.setListData(CreatePlayerList(this.lstTeamName.getSelectedValue().toString()));
                 this.txtPlayerName.setText("");
         }
         catch(Exception ex)
@@ -216,9 +216,43 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
                     break;
                 }
             }
-                this.lstPlayerName.setListData(CreatePlayerList());
+                this.lstPlayerName.setListData(CreatePlayerList(this.lstTeamName.getSelectedValue().toString()));
                 this.txtPlayerName.setText("");
     }//GEN-LAST:event_btnRemovePlayerActionPerformed
+
+    private void btnCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseFormActionPerformed
+        
+        try
+        {
+            String[] TeamList = CreateTeamList();
+            //String[] PlayerList = CreatePlayerList();
+            File f = new File("Players.txt");
+            FileWriter fw = new FileWriter(f,false);
+            BufferedWriter br = new BufferedWriter(fw);
+            for(int i = 0; i < TeamList.length; i++)
+            {
+                br.write(TeamList[i] + ",");
+                String[] PlayerList = CreatePlayerList(TeamList[i]);
+                for(int j = 0; j < PlayerList.length; j++)
+                {
+                    br.write(PlayerList[j] + ",");
+                }
+                br.write('\n');
+               // manager.AddTeam(new Team(list[i]));
+            }
+            br.close();
+        }
+        catch (Exception ex)
+        {
+            JOptionPane.showMessageDialog(this, "An Error occured while writing the teams to a file");
+            ex.printStackTrace();
+        }
+        finally
+        {
+            this.setVisible(false);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnCloseFormActionPerformed
     
     private String[] CreateTeamList()
     {
@@ -228,27 +262,92 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
             names[i] = manager.GetTeams().get(i).getName();
         }
         return names;
-    }
+    } 
        
-    private String[] CreatePlayerList()
+    private String[] CreatePlayerList(String TeamName)
     {
         Team T;
         int index = 0;
+        String[] names = null;
         for (int i = 0; i < manager.GetTeams().size(); i++)
         {
-            if(manager.GetTeams().get(i).getName().equals(this.lstTeamName.getSelectedValue().toString()))
+            if(manager.GetTeams().get(i).getName().equals(TeamName))
             {
                 index = i;
+                names = new String[manager.GetTeams().get(index).GetPlayers().size()];
+                for(int j = 0; j < manager.GetTeams().get(index).GetPlayers().size(); j++)
+                {
+                    names[j] = manager.GetTeams().get(index).GetPlayers().get(j).GetName();
+                }
+                break;
             }
         }
-        String[] names = new String[manager.GetTeams().get(index).GetPlayers().size()];
-        for(int i = 0; i < manager.GetTeams().get(index).GetPlayers().size(); i++)
+        if(manager.GetTeams().get(index).GetPlayers().isEmpty())
         {
-            names[i] = manager.GetTeams().get(index).GetPlayers().get(i).GetName();
-        }
+            names[0] = "No Players";
+            return names;
+        } 
+    
         return names;
     }
-
+    
+    private String[] ReadTeamsFile()
+    {
+        try
+        {
+            String ReadTeams;
+            String[] Teams;
+            File f = new File("Teams.txt");
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            ReadTeams = br.readLine();
+            Teams = ReadTeams.split(",[ ]*");
+             for(int i = 0; i < Teams.length; i++)
+            {
+                manager.AddTeam(new Team(Teams[i]));
+            }
+            this.lstTeamName.setListData(Teams);
+            br.close();
+            return Teams;
+        }
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null, "There Was an error while reading the team data file");
+        }
+        return null;
+    }
+    private void ReadPlayerFile(String[] Teams)
+    {
+        try
+        {
+            String ReadPlayers;
+            String[] Players = null;
+            File f = new File("Players.txt");
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            while((ReadPlayers = br.readLine()) != null)
+            {
+                Players = ReadPlayers.split(",[ ]*");
+                for(int i = 0; i < Teams.length; i++)
+                {
+                    for(int j = 1; j < Players.length; j++)
+                    {
+                        manager.GetTeams().get(i).AddPlayer(new Player(Players[j]));
+                    }
+            }   
+            }
+            //this.lstPlayerName.setListData(Players);
+            br.close();
+        }
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null, "There Was an error while reading the team data file");
+        }
+    }
+    private void lstTeamNameItemSelected(ListSelectionEvent Event) {
+        String Selected = this.lstTeamName.getSelectedValue().toString();
+        this.lstPlayerName.setListData(CreatePlayerList(Selected));
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddPlayer;
     private javax.swing.JButton btnCloseForm;
@@ -263,4 +362,5 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
     private javax.swing.JList lstTeamName;
     private javax.swing.JTextField txtPlayerName;
     // End of variables declaration//GEN-END:variables
+
 }
