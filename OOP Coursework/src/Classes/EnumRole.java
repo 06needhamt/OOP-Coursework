@@ -6,7 +6,7 @@
 package Classes;
 
 /**
- *
+ * This enum hold all of the roles that players can have
  * @author Tom
  */
 public enum EnumRole {

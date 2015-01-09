@@ -6,7 +6,7 @@
 package Classes;
 import java.util.*;
 /**
- *
+ * This Class Represents a team within the league
  * @author Tom
  */
 public class Team {
@@ -17,6 +17,10 @@ public class Team {
     private int Draws;
     private int Score;
     
+    /**
+     * Constructor for the Team Class used when creating a new team
+     * @param Name The Name For the team
+     */
     public Team(String Name)
     {
         this.TeamName = Name;
@@ -24,7 +28,13 @@ public class Team {
         this.Wins = 0;
         this.Losses = 0;
     }
-    
+    /**
+     * Constructor for the Team Class used when loading an existing team from a file
+     * @param Name The name for the team
+     * @param Wins The number of games the team has won
+     * @param Draws The number of games the team has drawn
+     * @param Losses The number of games the team has won
+     */
     public Team(String Name, int Wins, int Draws, int Losses)
     {
         this.TeamName = Name;
@@ -32,25 +42,47 @@ public class Team {
         this.Draws = Draws;
         this.Losses = Losses;
     }
-    
+    /**
+     * this method gets a ArrayList containing this teams players
+     * @return a ArrayList of Players that contains this teams players
+     */
     public ArrayList<Player> GetPlayers()
     {
         return this.players;
     }
+    /**
+     * this method sets this teams players
+     * @param Players An ArrayList of players for this team
+     */
     public void SetPlayers(ArrayList<Player> Players)
     {
         this.players = Players;
     }
+    /**
+     * this method adds a player to the team
+     * @param p the player to add to the team
+     * @return ArrayList of the team's players after adding the new player
+     */
     public ArrayList<Player> AddPlayer(Player p)
     {
         this.players.add(p);
         return this.players;
     }
+    /**
+     * this method removes a player from the team
+     * @param p The player to remove from the team
+     * @return ArrayList of the team's players after removing the player
+     */
     public ArrayList<Player> RemovePlayer(Player p)
     {
         this.players.remove(p);
         return this.players;
     }
+    /**
+     * this method removes a player from the team using its index in the list
+     * @param index the index to remove
+     * @return ArrayList of the team's players after removing the player at the specified index
+     */
     public ArrayList<Player> RemovePlayerByIndex(int index)
     {
         this.players.remove(index);

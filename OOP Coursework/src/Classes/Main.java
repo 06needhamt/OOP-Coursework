@@ -6,11 +6,14 @@
 package Classes;
 import gui.*;
 /**
- *
+ * The Main Class For the program
  * @author Tom
  */
 public class Main {
-    
+    /**
+     *  the main entry point for the program
+     * @param args the command line arguments that have been passed to the program
+     */
     public static void main(String[] args)
     {
         System.out.println("Hello World");
