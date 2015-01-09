@@ -1,3 +1,4 @@
-Everton,1,0,0,3,
-Liverpool,0,0,1,0,
-Manchester United,0,0,0,0,
+Team,                  W,D,L,Points
+Everton                ,1,0,0,3,
+Liverpool              ,0,0,1,0,
+Manchester United  ,0,0,0,0,

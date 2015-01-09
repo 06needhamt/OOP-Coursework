@@ -97,6 +97,11 @@ public class CreateMatchForm extends javax.swing.JFrame {
         });
 
         btnCloseForm.setText("Close Form");
+        btnCloseForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseFormActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -176,6 +181,11 @@ public class CreateMatchForm extends javax.swing.JFrame {
         CalculateWinner(M);
         WriteScoresToFile();
     }//GEN-LAST:event_btnSaveScoreActionPerformed
+
+    private void btnCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseFormActionPerformed
+        this.setVisible(false);
+        this.dispose();
+    }//GEN-LAST:event_btnCloseFormActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCloseForm;

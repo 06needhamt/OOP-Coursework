@@ -65,8 +65,18 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         btnCreateLeagueTable.setText("Create League Table");
+        btnCreateLeagueTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateLeagueTableActionPerformed(evt);
+            }
+        });
 
         btnPrintReport.setText("Print Report");
+        btnPrintReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintReportActionPerformed(evt);
+            }
+        });
 
         btnExit.setText("Exit");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
@@ -141,6 +151,16 @@ public class MainForm extends javax.swing.JFrame {
         CreateMatchForm f = new CreateMatchForm(Manager);
         f.setVisible(true);
     }//GEN-LAST:event_btnCreateMatchActionPerformed
+
+    private void btnCreateLeagueTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateLeagueTableActionPerformed
+        LeagueTableForm f = new LeagueTableForm(Manager);
+        f.setVisible(true);
+    }//GEN-LAST:event_btnCreateLeagueTableActionPerformed
+
+    private void btnPrintReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintReportActionPerformed
+        PrintReportForm f = new PrintReportForm(Manager);
+        f.setVisible(true);
+    }//GEN-LAST:event_btnPrintReportActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

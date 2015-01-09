@@ -8,6 +8,7 @@ import java.io.*;
 import javax.swing.*;
 import Classes.*;
 import javax.swing.event.*;
+import jdk.nashorn.internal.codegen.CompilerConstants;
 /**
  *
  * @author Tom
@@ -227,20 +228,27 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
             String[] TeamList = CreateTeamList();
             //String[] PlayerList = CreatePlayerList();
             File f = new File("Players.txt");
+            f.delete();
+            f.createNewFile();
             FileWriter fw = new FileWriter(f,false);
             BufferedWriter br = new BufferedWriter(fw);
             for(int i = 0; i < TeamList.length; i++)
             {
-                br.write(TeamList[i] + ",");
-                String[] PlayerList = CreatePlayerList(TeamList[i]);
-                for(int j = 0; j < PlayerList.length; j++)
+               br.write(TeamList[i] + ",");
+                ListModel model = this.lstPlayerName.getModel();
+                String[] PlayerList = new String[model.getSize() - 1];
+                for(int j = 0; j < model.getSize() - 1; j++)
                 {
+                    PlayerList[j] = model.getElementAt(j).toString();
                     br.write(PlayerList[j] + ",");
                 }
                 br.write('\n');
                // manager.AddTeam(new Team(list[i]));
             }
             br.close();
+            //this.lstTeamName.setListData(new Object[] { null });
+            //this.lstPlayerName.setListData(new Object[] { null });
+            
         }
         catch (Exception ex)
         {
@@ -267,13 +275,13 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
     private String[] CreatePlayerList(String TeamName)
     {
         Team T;
-        int index = 0;
+        //int count = 0;
         String[] names = null;
-        for (int i = 0; i < manager.GetTeams().size(); i++)
+        for (int index = 0; index < manager.GetTeams().size(); index++)
         {
-            if(manager.GetTeams().get(i).getName().equals(TeamName))
+            if(manager.GetTeams().get(index).getName().equals(TeamName))
             {
-                index = i;
+                
                 names = new String[manager.GetTeams().get(index).GetPlayers().size()];
                 for(int j = 0; j < manager.GetTeams().get(index).GetPlayers().size(); j++)
                 {
@@ -281,15 +289,15 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
                 }
                 break;
             }
+            
+            if(manager.GetTeams().get(index).GetPlayers().isEmpty())
+            {
+                return new String[] {""};
+            } 
         }
-        if(manager.GetTeams().get(index).GetPlayers().isEmpty())
-        {
-            names[0] = "No Players";
-            return names;
-        } 
-    
         return names;
     }
+    // **************************
     
     private String[] ReadTeamsFile()
     {
@@ -328,13 +336,17 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
             while((ReadPlayers = br.readLine()) != null)
             {
                 Players = ReadPlayers.split(",[ ]*");
-                for(int i = 0; i < Teams.length; i++)
+                for(int index = 0; index < Teams.length; index++)
                 {
-                    for(int j = 1; j < Players.length; j++)
+                    //manager.GetTeams().get(index).GetPlayers().clear();
+                    if(manager.GetTeams().get(index).getName().equals(Players[0]))
                     {
-                        manager.GetTeams().get(i).AddPlayer(new Player(Players[j]));
+                        for(int j = 1; j < Players.length; j++)
+                        {
+                            manager.GetTeams().get(index).AddPlayer(new Player(Players[j]));
+                        }
                     }
-            }   
+                }   
             }
             //this.lstPlayerName.setListData(Players);
             br.close();
@@ -345,6 +357,10 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
         }
     }
     private void lstTeamNameItemSelected(ListSelectionEvent Event) {
+        if(this.lstTeamName.getSelectedValue() == null)
+        {
+            return;
+        }
         String Selected = this.lstTeamName.getSelectedValue().toString();
         this.lstPlayerName.setListData(CreatePlayerList(Selected));
     }
