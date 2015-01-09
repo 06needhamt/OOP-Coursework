@@ -5,7 +5,6 @@
  */
 package Classes;
 import java.util.*;
-import javax.swing.*;
 /**
  *
  * @author Tom
@@ -16,7 +15,7 @@ public class Team {
     private int Wins;
     private int Losses;
     private int Draws;
-    private double WinLossRatio;
+    private int Score;
     
     public Team(String Name)
     {
@@ -24,6 +23,14 @@ public class Team {
         this.Draws = 0;
         this.Wins = 0;
         this.Losses = 0;
+    }
+    
+    public Team(String Name, int Wins, int Draws, int Losses)
+    {
+        this.TeamName = Name;
+        this.Wins = Wins;
+        this.Draws = Draws;
+        this.Losses = Losses;
     }
     
     public ArrayList<Player> GetPlayers()
@@ -81,21 +88,25 @@ public class Team {
     {
         this.Losses = amount;
     }
-    public double GetWinLossRatio()
+    public int GetScore()
     {
-        this.CalculateWinLossRatio();
-        return this.WinLossRatio;
+        this.CalculateScore();
+        return this.Score;
     }
-    public void CalculateWinLossRatio()
+    public void CalculateScore()
     {
-        try
-        {
-            this.WinLossRatio = this.Wins / (this.Wins + this.Losses);
-        }
-        catch(ArithmeticException ex)
-        {
-            JOptionPane.showMessageDialog(null, "An arithmetic error occured did you try to divide by 0");
-            this.WinLossRatio = 0.0;
-        }
+        this.Score = (this.Wins * 3) + (this.Draws);
+    }
+    public void IncrenentWin()
+    {
+        this.Wins++;
+    }
+    public void IncrementDraw()
+    {
+        this.Draws++;
+    }
+    public void IncrementLoss()
+    {
+        this.Losses++;
     }
 }

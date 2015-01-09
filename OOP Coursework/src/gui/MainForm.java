@@ -51,6 +51,11 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         btnCreateMatch.setText("Create Match");
+        btnCreateMatch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateMatchActionPerformed(evt);
+            }
+        });
 
         btnAddRemovePlayer.setText("Add/Remove Players");
         btnAddRemovePlayer.addActionListener(new java.awt.event.ActionListener() {
@@ -131,6 +136,11 @@ public class MainForm extends javax.swing.JFrame {
         AddRemovePlayerForm f = new AddRemovePlayerForm(Manager);
         f.setVisible(true);
     }//GEN-LAST:event_btnAddRemovePlayerActionPerformed
+
+    private void btnCreateMatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateMatchActionPerformed
+        CreateMatchForm f = new CreateMatchForm(Manager);
+        f.setVisible(true);
+    }//GEN-LAST:event_btnCreateMatchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

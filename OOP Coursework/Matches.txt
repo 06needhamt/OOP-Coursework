@@ -1,0 +1,3 @@
+Everton,1,Liverpool,0
+Liverpool,1,Manchester United,0
+Everton,1,Liverpool,0
