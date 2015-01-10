@@ -8,37 +8,37 @@ import java.io.*;
 import javax.swing.*;
 import Classes.*;
 import javax.swing.event.*;
-import jdk.nashorn.internal.codegen.CompilerConstants;
 /**
- *
+ * This class manages the Form where users will add and remove players from a team
  * @author Tom
  */
 public class AddRemovePlayerForm extends javax.swing.JFrame {
 
     /**
-     * Creates new form AddRemovePlayerForm
+     * Default Constructor for AddAndRemovePlayerForm
      */
     private TeamManager manager;
     public AddRemovePlayerForm() {
         initComponents();
     }
+    /**
+     * Constructor for AddRemovePlayerForm which takes a TeamManager so teams can be read from a file
+     * @param Manager The team manager that will manage the teams
+     */
     public AddRemovePlayerForm(TeamManager Manager)
     {
         this.manager = Manager;
-        initComponents();
+        initComponents(); // initialise the foem
         this.lstTeamName.addListSelectionListener(new ListSelectionListener()
                 {
                     public void valueChanged(ListSelectionEvent Event)
                     {
                         JList Source = (JList) Event.getSource();
-                        lstTeamNameItemSelected(Event);
+                        lstTeamNameItemSelected(Event); // when the user clicks on a team name desplay it's players
                     }
-
-           
-                    
                 });
-        String[] Teams = ReadTeamsFile();  
-        ReadPlayerFile(Teams);
+        String[] Teams = ReadTeamsFile();  // Try to read team data from a file
+        ReadPlayerFile(Teams); // Try to read player data from a file
         
 
     }
@@ -168,40 +168,47 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * This method is called when the add player button is clicked so the player is added to a team
+     * @param evt The event listener for the Add Player button
+     */
     private void btnAddPlayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPlayerActionPerformed
         try
         {
             int index = 0;
-            System.out.println("Clicked");
             for (int i = 0; i < manager.GetTeams().size(); i++)
             {
-                if(manager.GetTeams().get(i).getName().equals(this.lstTeamName.getSelectedValue().toString()))
+                if(manager.GetTeams().get(i).getName().equals(this.lstTeamName.getSelectedValue().toString())) // find the selected team 
                 {
                     index = i;
-                    manager.GetTeams().get(i).AddPlayer(new Player(this.txtPlayerName.getText()));
-                    break;
+                    manager.GetTeams().get(i).AddPlayer(new Player(this.txtPlayerName.getText())); // add the player to the selected team
+                    break; // break the loop
                 }
             }
-                if(this.txtPlayerName.getText().equals(""))
+                if(this.txtPlayerName.getText().equals("")) // if no team was selected
                 {
-                    throw new Exception();
+                    throw new Exception(); // Throw an exception
                 }
-                this.lstPlayerName.setListData(CreatePlayerList(this.lstTeamName.getSelectedValue().toString()));
-                this.txtPlayerName.setText("");
+                this.lstPlayerName.setListData(CreatePlayerList(this.lstTeamName.getSelectedValue().toString())); // Update the list of player names and add them to a list box
+                this.txtPlayerName.setText(""); // Empty the player name input box so that a new player can be added
         }
         catch(Exception ex)
         {
-            JOptionPane.showMessageDialog(this, "Please Select A Team Name");
+            JOptionPane.showMessageDialog(this, "Please Select A Team Name"); // If the user did not select a team name how a error message 
         }
     }//GEN-LAST:event_btnAddPlayerActionPerformed
 
+    /**
+     * This method is called when the remove player button is clicked so the player is removed from the team
+     * @param evt The event listener for the remove Player button
+     */
     private void btnRemovePlayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemovePlayerActionPerformed
 
             int index = 0;
             int TeamIndex = 0;
             for (int i = 0; i < manager.GetTeams().size(); i++)
             {
-                 if(manager.GetTeams().get(i).getName().equals(this.lstTeamName.getSelectedValue().toString()))
+                 if(manager.GetTeams().get(i).getName().equals(this.lstTeamName.getSelectedValue().toString())) 
                 {
                     TeamIndex = i;
                     manager.GetTeams().get(i).AddPlayer(new Player(this.txtPlayerName.getText()));
@@ -221,20 +228,25 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
                 this.txtPlayerName.setText("");
     }//GEN-LAST:event_btnRemovePlayerActionPerformed
 
+    /**
+     * This method is called when the close form button is pressed so the form closes
+     * @param evt The event listener for the close form button
+     */
     private void btnCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseFormActionPerformed
         
         try
         {
-            String[] TeamList = CreateTeamList();
+            String[] TeamList = CreateTeamList(); // create a list of teams
             //String[] PlayerList = CreatePlayerList();
-            File f = new File("Players.txt");
+            File f = new File("Players.txt"); // file location for the player data to be wrirren to 
             f.delete();
             f.createNewFile();
-            FileWriter fw = new FileWriter(f,false);
-            BufferedWriter br = new BufferedWriter(fw);
-            for(int i = 0; i < TeamList.length; i++)
+            FileWriter fw = new FileWriter(f,false); // initialise the file writer object 
+            BufferedWriter br = new BufferedWriter(fw); // initialise the buffered writer object for writing data to the file
+            
+            for(int i = 0; i < TeamList.length; i++) // Write each team to the file
             {
-               br.write(TeamList[i] + ",");
+               br.write(TeamList[i] + ","); // write the teamname to the file followed by a comma
                 ListModel model = this.lstPlayerName.getModel();
                 String[] PlayerList = new String[model.getSize() - 1];
                 for(int j = 0; j < model.getSize() - 1; j++)
@@ -242,36 +254,44 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
                     PlayerList[j] = model.getElementAt(j).toString();
                     br.write(PlayerList[j] + ",");
                 }
-                br.write('\n');
+                br.write('\n'); // write a line terminator to the file
                // manager.AddTeam(new Team(list[i]));
             }
-            br.close();
+            br.close(); // close the buffered writer
             //this.lstTeamName.setListData(new Object[] { null });
             //this.lstPlayerName.setListData(new Object[] { null });
             
         }
         catch (Exception ex)
         {
-            JOptionPane.showMessageDialog(this, "An Error occured while writing the teams to a file");
+            JOptionPane.showMessageDialog(this, "An Error occured while writing the teams to a file"); // if an error occured display an error message
             ex.printStackTrace();
         }
         finally
         {
+            // Close the form
             this.setVisible(false);
             this.dispose();
         }
     }//GEN-LAST:event_btnCloseFormActionPerformed
-    
+    /**
+     * This method crates a list of team names for displaying in the list box
+     * @return An Array of team names to be displayed in the list box
+     */
     private String[] CreateTeamList()
     {
         String[] names = new String[manager.GetTeams().size()];
-        for(int i = 0; i < manager.GetTeams().size(); i++)
+        for(int i = 0; i < manager.GetTeams().size(); i++) // iterate through the list of teams
         {
-            names[i] = manager.GetTeams().get(i).getName();
+            names[i] = manager.GetTeams().get(i).getName(); // add the name of each tema in the list to an array
         }
-        return names;
+        return names; // return the array
     } 
-       
+       /**
+        * This method creates a list of players for a team
+        * @param TeamName The name of the team to generate a list of it's players
+        * @return An array of player names to be displayed in the list box
+        */
     private String[] CreatePlayerList(String TeamName)
     {
         Team T;
@@ -297,8 +317,11 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
         }
         return names;
     }
-    // **************************
-    
+    // ************************************************************************************************************
+    /**
+     * This Method reads all of the team names from a file
+     * @return The list of team names read from the file
+     */
     private String[] ReadTeamsFile()
     {
         try
@@ -324,6 +347,10 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
         }
         return null;
     }
+    /**
+     * This method returns a list of player names from the file
+     * @param Teams An array of teams to read players for
+     */
     private void ReadPlayerFile(String[] Teams)
     {
         try
@@ -356,6 +383,10 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "There Was an error while reading the team data file");
         }
     }
+    /**
+     * This method is called when a user clicks a team name in the teams list box
+     * @param Event The Event Listener for the list box
+     */
     private void lstTeamNameItemSelected(ListSelectionEvent Event) {
         if(this.lstTeamName.getSelectedValue() == null)
         {

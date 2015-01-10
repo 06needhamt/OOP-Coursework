@@ -8,18 +8,22 @@ import Classes.*;
 import java.io.*;
 import javax.swing.*;
 /**
- *
+ * This class manages the league table form 
  * @author Tom
  */
 public class LeagueTableForm extends javax.swing.JFrame {
 
     /**
-     * Creates new form LeagueTableForm
+     * Default Constructor for LeagueTableForm
      */
     private TeamManager manager;
     public LeagueTableForm() {
         initComponents();
     }
+     /**
+     * Constructor for LeagueTableForm which takes a TeamManager so teams can be read from a file
+     * @param Manager The team manager that will manage the teams
+     */
     public LeagueTableForm(TeamManager Manager)
     {
          this.manager = Manager;
@@ -54,7 +58,7 @@ public class LeagueTableForm extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         txtTable = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        btnCloseForm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,10 +66,10 @@ public class LeagueTableForm extends javax.swing.JFrame {
         txtTable.setRows(5);
         jScrollPane1.setViewportView(txtTable);
 
-        jButton1.setText("Close Form");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCloseForm.setText("Close Form");
+        btnCloseForm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCloseFormActionPerformed(evt);
             }
         });
 
@@ -75,7 +79,7 @@ public class LeagueTableForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(153, 153, 153)
-                .addComponent(jButton1)
+                .addComponent(btnCloseForm)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(15, Short.MAX_VALUE)
@@ -88,21 +92,25 @@ public class LeagueTableForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnCloseForm)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    /**
+     * This method is called when the close form button is pressed so the form closes
+     * @param evt The event listener for the close form button
+     */
+    private void btnCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseFormActionPerformed
         this.setVisible(false);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnCloseFormActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnCloseForm;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea txtTable;
     // End of variables declaration//GEN-END:variables

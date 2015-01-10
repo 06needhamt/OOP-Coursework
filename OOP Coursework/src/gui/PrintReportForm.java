@@ -8,18 +8,23 @@ import java.io.*;
 import javax.swing.*;
 import Classes.*;
 /**
- *
+ * This Class manages the Print Report form so a report can be printed
  * @author Tom
  */
 public class PrintReportForm extends javax.swing.JFrame {
 
+    private TeamManager manager;
     /**
      * Creates new form PrintReportForm
      */
-    private TeamManager manager;
+    
     public PrintReportForm() {
         initComponents();
     }
+    /**
+     * Constructor for PrintReportForm which takes a TeamManager so teams can be read from a file
+     * @param Manager The team manager that will manage the teams
+     */
     public PrintReportForm(TeamManager Manager)
     {
         this.manager = Manager;
@@ -91,6 +96,10 @@ public class PrintReportForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * This method is called when the close form button is pressed so the form closes
+     * @param evt The event listener for the close form button
+     */
     private void btnCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseFormActionPerformed
         this.setVisible(false);
         this.dispose();

@@ -9,18 +9,22 @@ import javax.swing.*;
 import Classes.*;
 
 /**
- *
+ * This class manages the Form where users will add and remove Teams from the league
  * @author Tom
  */
 public class AddRemoveTeamForm extends javax.swing.JFrame {
 
     /**
-     * Creates new form AddTeamForm
+     * Default Constructor for AddRemoveTeamForm
      */
     private TeamManager manager;
     public AddRemoveTeamForm() {
         initComponents();
     }
+     /**
+     * Constructor for AddRemoveTeamForm which takes a TeamManager so teams can be read from a file
+     * @param manager The team manager that will manage the teams
+     */
     public AddRemoveTeamForm(TeamManager manager)
     {
         this.manager = manager;
@@ -32,19 +36,19 @@ public class AddRemoveTeamForm extends javax.swing.JFrame {
             File f = new File("Teams.txt");
             FileReader fr = new FileReader(f);
             BufferedReader br = new BufferedReader(fr);
-            ReadTeams = br.readLine();
-            Teams = ReadTeams.split(",[ ]*");
+            ReadTeams = br.readLine(); // read the teams from the file
+            Teams = ReadTeams.split(",[ ]*"); // Split the string on commas
             for(int i = 0; i < Teams.length; i++)
             {
-                manager.AddTeam(new Team(Teams[i]));
+                manager.AddTeam(new Team(Teams[i])); // add all the read teams to the team manager
             }
-            this.lstTeamList.setListData(Teams); 
-            br.close();
+            this.lstTeamList.setListData(Teams); // set the list box data to a list of the read team names
+            br.close(); // close the buffered writer
             
         }
         catch (Exception ex)
         {
-            JOptionPane.showMessageDialog(null, "An Error occured while reading the teams from a file");
+            JOptionPane.showMessageDialog(null, "An Error occured while reading the teams from a file"); // if an error occured show an error message
         }
     }
 
@@ -157,24 +161,31 @@ public class AddRemoveTeamForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * This method is called when the add team button is clicked so the team is added to the league
+     * @param evt Event Listener for the add team button
+     */
     private void btnAddTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTeamActionPerformed
         try
         {
-            if(this.txtTeamName.getText().equals(""))
+            if(this.txtTeamName.getText().equals("")) // if no name was entered
             {
-                throw new Exception();
+                throw new Exception(); // throw an exception
             }
-            manager.AddTeam(new Team(this.txtTeamName.getText()));
-            lstTeamList.setListData(CreateList());
-            txtTeamName.setText("");
+            manager.AddTeam(new Team(this.txtTeamName.getText())); // add the team to the team manager
+            lstTeamList.setListData(CreateList()); // recreate the list of players
+            txtTeamName.setText(""); // empty the team name input box so another team is entered
         }
         catch(Exception ex)
         {
-            JOptionPane.showMessageDialog(this, "Please Enter A Team Name");
+            JOptionPane.showMessageDialog(this, "Please Enter A Team Name"); // if the user did nor enter a team name show an error message
         }
     }//GEN-LAST:event_btnAddTeamActionPerformed
 
+    /**
+     * This method is called when the close form button is clicked so form is closed
+     * @param evt The event listener for the close form button
+     */
     private void btnCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseFormActionPerformed
         try
         {
@@ -200,6 +211,10 @@ public class AddRemoveTeamForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCloseFormActionPerformed
 
+    /**
+     * This method is called when the remove team button is clicked so the team is removed from the league
+     * @param evt The event listener for the remove team button
+     */
     private void btnRemoveTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveTeamActionPerformed
         try
         {
@@ -222,6 +237,10 @@ public class AddRemoveTeamForm extends javax.swing.JFrame {
             lstTeamList.setListData(CreateList());
         }
     }//GEN-LAST:event_btnRemoveTeamActionPerformed
+    /**
+     * This method creates a list of teams to be displayed in a lit box
+     * @return A list of team names to be displayed in the list box
+     */
     private String[] CreateList()
     {
         String[] names = new String[manager.GetTeams().size()];

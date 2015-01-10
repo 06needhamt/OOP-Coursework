@@ -88,55 +88,103 @@ public class Team {
         this.players.remove(index);
         return this.players;
     }
+    /**
+     * Gets the name of a player
+     * @return The name of the player
+     */
     public String getName()
     {
         return this.TeamName;
     }
+    /**
+     * Sets the name of a player
+     * @param Name The Name of the player
+     */
     public void setName(String Name)
     {
         this.TeamName = Name;
     }
+    /**
+     * gets the amount of games the team has drawn
+     * @return The amount of games the team has drawn
+     */
     public int GetDraws()
     {
         return this.Draws;
     }
+    /**
+     * sets the amount of games the team has drawn
+     * @param amount the amount of games the team has drawn
+     */
     public void SetDraws(int amount)
     {
         this.Draws = amount;
     }
+    /**
+     * Gets the amount of games the team has won
+     * @return the amount of games the team has won
+     */
     public int getWins()
     {
         return this.Wins;
     }
+    /**
+     *  Sets the amount of games the team has won
+     * @param amount the amount of games the team has won
+     */
     public void SetWins(int amount)
     {
         this.Wins = amount;
     }
+    /**
+     * gets the amount of games the team has lost
+     * @return the amount of games the team has lost
+     */
     public int GetLosses()
     {
         return this.Losses;
     }
+    /**
+     * sets the amount of games the team has lost
+     * @param amount the amount of games the team has lost
+     */
     public void SetLosses(int amount)
     {
         this.Losses = amount;
     }
+    /**
+     * Gets the current score for the team
+     * @return the current score for the team
+     */
     public int GetScore()
     {
-        this.CalculateScore();
+        this.CalculateScore(); // calculate the current score for the team
         return this.Score;
     }
+    /**
+     * This method calculates the current score for the team
+     */
     public void CalculateScore()
     {
         this.Score = (this.Wins * 3) + (this.Draws);
     }
+    /**
+     * this method increments the amount of games the team has won
+     */
     public void IncrenentWin()
     {
         this.Wins++;
     }
+    /**
+     * this method increments the amount of games the team has drawn
+     */
     public void IncrementDraw()
     {
         this.Draws++;
     }
+    /**
+     * this method increments the amount of games the team has lost
+     */
     public void IncrementLoss()
     {
         this.Losses++;

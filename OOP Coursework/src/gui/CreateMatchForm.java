@@ -8,18 +8,23 @@ import Classes.*;
 import java.io.*;
 import javax.swing.*;
 /**
- *
+ * This class manages The Create Match form where matches can be created
  * @author Tom
  */
 public class CreateMatchForm extends javax.swing.JFrame {
 
     /**
-     * Creates new form CreateMatchForm
+     * Default Constructor For CreateMatchForm
      */
     private TeamManager manager;
     public CreateMatchForm() {
         initComponents();
     }
+    
+    /**
+     * Constructor for CreateMatchForm which takes a TeamManager so teams can be read from a file
+     * @param Manager The team manager that will manage the teams
+     */
     public CreateMatchForm(TeamManager Manager)
     {
         this.manager = Manager;
@@ -176,34 +181,30 @@ public class CreateMatchForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * This method is called when the save score button is clicked so the final match score is saved
+     * @param evt The event listener for the save score button
+     */
     private void btnSaveScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveScoreActionPerformed
         Match M = CreateMatch();
         CalculateWinner(M);
         WriteScoresToFile();
     }//GEN-LAST:event_btnSaveScoreActionPerformed
 
+    /**
+     * This method is called when the close form button is clicked so the form is closed
+     * @param evt The event listener for the close form button
+     */
     private void btnCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseFormActionPerformed
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_btnCloseFormActionPerformed
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCloseForm;
-    private javax.swing.JButton btnSaveScore;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JList lstAwayTeam;
-    private javax.swing.JList lstHomeTeam;
-    private javax.swing.JTextField txtAwayScore;
-    private javax.swing.JTextField txtHomeScore;
-    // End of variables declaration//GEN-END:variables
-
-    private Match CreateMatch() {
+    /**
+     * This method creates a match
+     * @return The match that has been created
+     */
+     private Match CreateMatch() {
         try
         {
             if(this.lstHomeTeam.getSelectedValue() == null || this.lstAwayTeam.getSelectedValue() == null)
@@ -232,6 +233,10 @@ public class CreateMatchForm extends javax.swing.JFrame {
         return null;
     }
 
+     /**
+      * This method writes matches to a file
+      * @param M The match to write to the file
+      */
     private void WriteMatchToFile(Match M) {
        try
        {
@@ -252,7 +257,10 @@ public class CreateMatchForm extends javax.swing.JFrame {
        }
        
     }
-
+    /**
+    * This Method calculates which team has won the match
+    * @param M The match to calculate the winner of
+    */
     private void CalculateWinner(Match M) {
         String winner = M.CalculateWinner();
         if(winner.equals("Draw"))
@@ -283,7 +291,10 @@ public class CreateMatchForm extends javax.swing.JFrame {
             }
         }
     }
-
+    
+    /**
+     * This method writes all team's score data to a file
+     */
     private void WriteScoresToFile() {
         try
         {
@@ -309,4 +320,22 @@ public class CreateMatchForm extends javax.swing.JFrame {
         }
         
     }
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCloseForm;
+    private javax.swing.JButton btnSaveScore;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList lstAwayTeam;
+    private javax.swing.JList lstHomeTeam;
+    private javax.swing.JTextField txtAwayScore;
+    private javax.swing.JTextField txtHomeScore;
+    // End of variables declaration//GEN-END:variables
+
 }

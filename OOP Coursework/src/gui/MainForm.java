@@ -6,13 +6,13 @@
 package gui;
 import Classes.*;
 /**
- *
+ * This Class manages the main form which will be opened when the program first starts
  * @author Tom
  */
 public class MainForm extends javax.swing.JFrame {
 
     /**
-     * Creates new form MainForm
+     * Default Constructor for MainForm
      */
     private TeamManager Manager;
     public MainForm() {
@@ -132,31 +132,54 @@ public class MainForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * This method is called when the exit button is pressed so the program closes
+     * @param evt The event listener for the close form button
+     */
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed
 
+    /**
+     * This method is called when the Add/Remove Team button is pressed so the Add/Remove Team Form is opened
+     * @param evt The event listener for the Add/Remove Team button
+     */
     private void btnAddTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTeamActionPerformed
         AddRemoveTeamForm f = new AddRemoveTeamForm(Manager);
         f.setVisible(true);
     }//GEN-LAST:event_btnAddTeamActionPerformed
-
+    
+    /**
+     * This method is called when the Add/Remove Player button is pressed so the Add/Remove Player Form is opened
+     * @param evt The event listener for the Add/Remove form button
+     */
     private void btnAddRemovePlayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRemovePlayerActionPerformed
 
         AddRemovePlayerForm f = new AddRemovePlayerForm(Manager);
         f.setVisible(true);
     }//GEN-LAST:event_btnAddRemovePlayerActionPerformed
 
+     /**
+     * This method is called when the Create Match button is pressed so the Create Match Form is opened
+     * @param evt The event listener for the Create/Match button
+     */
     private void btnCreateMatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateMatchActionPerformed
         CreateMatchForm f = new CreateMatchForm(Manager);
         f.setVisible(true);
     }//GEN-LAST:event_btnCreateMatchActionPerformed
-
+    /**
+     * This method is called when the League Table button is pressed so the League Form is opened
+     * @param evt The event listener for the League Table button
+     */
     private void btnCreateLeagueTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateLeagueTableActionPerformed
         LeagueTableForm f = new LeagueTableForm(Manager);
         f.setVisible(true);
     }//GEN-LAST:event_btnCreateLeagueTableActionPerformed
 
+     /**
+     * This method is called when the Print Report button is pressed so the Print Report Form is opened
+     * @param evt The event listener for the print report button
+     */
     private void btnPrintReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintReportActionPerformed
         PrintReportForm f = new PrintReportForm(Manager);
         f.setVisible(true);
