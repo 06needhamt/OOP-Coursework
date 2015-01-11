@@ -36,6 +36,10 @@ public class AddRemoveTeamForm extends javax.swing.JFrame {
             File f = new File("Teams.txt");
             FileReader fr = new FileReader(f);
             BufferedReader br = new BufferedReader(fr);
+            if(f.length() == 0)
+            {
+                return;
+            }
             ReadTeams = br.readLine(); // read the teams from the file
             Teams = ReadTeams.split(",[ ]*"); // Split the string on commas
             for(int i = 0; i < Teams.length; i++)
@@ -203,6 +207,7 @@ public class AddRemoveTeamForm extends javax.swing.JFrame {
         catch (Exception ex)
         {
             JOptionPane.showMessageDialog(this, "An Error occured while writing the teams to a file");
+            ex.printStackTrace();
         }
         finally
         {

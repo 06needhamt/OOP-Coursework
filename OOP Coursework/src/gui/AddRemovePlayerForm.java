@@ -176,8 +176,10 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
         try
         {
             int index = 0;
+            
             for (int i = 0; i < manager.GetTeams().size(); i++)
             {
+              
                 if(manager.GetTeams().get(i).getName().equals(this.lstTeamName.getSelectedValue().toString())) // find the selected team 
                 {
                     index = i;
@@ -239,7 +241,6 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
             String[] TeamList = CreateTeamList(); // create a list of teams
             //String[] PlayerList = CreatePlayerList();
             File f = new File("Players.txt"); // file location for the player data to be wrirren to 
-            f.delete();
             f.createNewFile();
             FileWriter fw = new FileWriter(f,false); // initialise the file writer object 
             BufferedWriter br = new BufferedWriter(fw); // initialise the buffered writer object for writing data to the file
@@ -248,8 +249,8 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
             {
                br.write(TeamList[i] + ","); // write the teamname to the file followed by a comma
                 ListModel model = this.lstPlayerName.getModel();
-                String[] PlayerList = new String[model.getSize() - 1];
-                for(int j = 0; j < model.getSize() - 1; j++)
+                String[] PlayerList = new String[model.getSize()];
+                for(int j = 0; j < model.getSize(); j++)
                 {
                     PlayerList[j] = model.getElementAt(j).toString();
                     br.write(PlayerList[j] + ",");
@@ -329,6 +330,10 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
             String ReadTeams;
             String[] Teams;
             File f = new File("Teams.txt");
+            if(f.length() == 0)
+            {
+                return null;
+            }
             FileReader fr = new FileReader(f);
             BufferedReader br = new BufferedReader(fr);
             ReadTeams = br.readLine();
@@ -358,6 +363,10 @@ public class AddRemovePlayerForm extends javax.swing.JFrame {
             String ReadPlayers;
             String[] Players = null;
             File f = new File("Players.txt");
+            if(f.length() == 0)
+            {
+                return;
+            }
             FileReader fr = new FileReader(f);
             BufferedReader br = new BufferedReader(fr);
             while((ReadPlayers = br.readLine()) != null)

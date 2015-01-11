@@ -34,6 +34,10 @@ public class CreateMatchForm extends javax.swing.JFrame {
             String ReadTeams;
             String[] Teams;
             File f = new File("Teams.txt");
+            if(f.length() == 0)
+            {
+                return;
+            }
             FileReader fr = new FileReader(f);
             BufferedReader br = new BufferedReader(fr);
             ReadTeams = br.readLine();
